@@ -4,7 +4,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { createId } from "@poppin/shared";
 import type { PMRSketch } from "@poppin/pmr";
-import type { ReaperStatus } from "@poppin/daw-bridge";
+import type { GarageBandStatus, ReaperStatus } from "@poppin/daw-bridge";
 
 export type SessionRecord = {
   id: string;
@@ -21,6 +21,7 @@ export type SessionRecord = {
   explanation: string | null;
   logs: string[];
   reaper: ReaperStatus | null;
+  garageBand: GarageBandStatus | null;
   generateSource: "gateway" | "fallback" | null;
 };
 
@@ -57,6 +58,7 @@ export async function createSession(input: {
     explanation: null,
     logs: [],
     reaper: null,
+    garageBand: null,
     generateSource: null,
   };
   await saveSession(record);
@@ -73,5 +75,9 @@ export async function loadSession(id: string): Promise<SessionRecord | null> {
   const path = join(sessionDir(id), "session.json");
   if (!existsSync(path)) return null;
   const raw = await readFile(path, "utf8");
-  return JSON.parse(raw) as SessionRecord;
+  const parsed = JSON.parse(raw) as SessionRecord;
+  return {
+    ...parsed,
+    garageBand: parsed.garageBand ?? null,
+  };
 }
