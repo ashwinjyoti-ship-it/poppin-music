@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "types": ["node"],
+    "paths": {
+      "@poppin/pmr": ["./packages/pmr/src/index.ts"],
+      "@poppin/musical-engine": ["./packages/musical-engine/src/index.ts"],
+      "@poppin/session-agents": ["./packages/session-agents/src/index.ts"],
+      "@poppin/daw-bridge": ["./packages/daw-bridge/src/index.ts"],
+      "@poppin/shared": ["./packages/shared/src/index.ts"]
+    }
+  },
+  "include": ["packages/**/*.ts", "tests/**/*.ts", "apps/host/src/api/**/*.ts"]
+}

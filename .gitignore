@@ -1,0 +1,17 @@
+node_modules
+dist
+out
+release
+coverage
+.DS_Store
+*.log
+.env
+.env.local
+.poppin-data
+apps/host/.env
+.vite
+*.tsbuildinfo
+
+# Original spec dumps kept locally; tracked copies live in docs/
+/Poppin_Music_Final_Code_Docs/
+/poppin_music_ui_assets/

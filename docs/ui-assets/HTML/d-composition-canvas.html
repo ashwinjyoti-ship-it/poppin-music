@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body{font-family:'DM Sans',sans-serif}.mono{font-family:'IBM Plex Mono',monospace}.piano{background-image:linear-gradient(to right,rgba(39,48,56,.055) 1px,transparent 1px),linear-gradient(to bottom,rgba(39,48,56,.05) 1px,transparent 1px);background-size:32px 100%,100% 16px}.barline{border-left:1px solid rgba(39,48,56,.18)}
+/* soft skeuomorphic layer (40%) */
+body{background:radial-gradient(ellipse at 50% 0%,#F8F5F0 0%,#F0EDE6 100%) !important}
+.bg-\[\#FBFAF7\]{background:linear-gradient(160deg,#FFFFFF 0%,#F7F5F0 100%) !important;box-shadow:inset 0 1px 0 rgba(255,255,255,.6),inset 1px 0 0 rgba(255,255,255,.3),inset 0 -1px 0 rgba(0,0,0,.06),inset -1px 0 0 rgba(0,0,0,.04),0 1px 3px rgba(0,0,0,.06),0 4px 12px rgba(0,0,0,.04)}
+header{box-shadow:0 1px 0 rgba(255,255,255,.85),0 2px 6px rgba(0,0,0,.04)}
+.border-t{box-shadow:0 -1px 0 rgba(255,255,255,.85)}
+button{background-image:linear-gradient(180deg,#F0EDE8 0%,#E0DDD8 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 2px 6px rgba(0,0,0,.10);transition:box-shadow .15s,background-image .15s}
+button:hover{background-image:linear-gradient(180deg,#EDEAE4 0%,#E3E0DA 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 3px 9px rgba(0,0,0,.10)}
+button.bg-\[\#273038\]{background-image:linear-gradient(180deg,#1A1A1A 0%,#0D0D0D 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 2px 8px rgba(0,0,0,.25)}
+button.bg-\[\#F5F2ED\]{background-image:linear-gradient(180deg,#FAF8F4 0%,#EBE7E0 100%)}
+input{background:#EDEAE4 !important;box-shadow:inset 0 1px 3px rgba(0,0,0,.10),inset 0 1px 1px rgba(0,0,0,.06);padding-left:10px}
+input:focus{outline:none;box-shadow:inset 0 1px 4px rgba(0,0,0,.14)}
+.bg-\[\#B8C8D4\]{background:linear-gradient(180deg,#BFCEDA 0%,#AEBECB 100%);border-top:1px solid rgba(255,255,255,.5);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.bg-\[\#D4C8B8\]{background:linear-gradient(180deg,#DACFC0 0%,#C9BCAA 100%);border-top:1px solid rgba(255,255,255,.5);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.bg-\[\#D4B8C3\]{background:linear-gradient(180deg,#DABFCA 0%,#C9AAB6 100%);border-top:1px solid rgba(255,255,255,.5);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.bg-\[\#C3B8D4\]{background:linear-gradient(180deg,#CABFDA 0%,#B5AAC9 100%)}
+[data-design-id^="agent-harmony"]{border-left:3px solid #B8C8D4}
+[data-design-id^="agent-bass"]{border-left:3px solid #D4C8B8}
+[data-design-id^="agent-drums"]{border-left:3px solid #D4B8C3}
+</style>
+</head>
+<body class="w-[1440px] min-h-[900px] bg-[#F5F2ED] text-[#273038] font-light overflow-hidden">
+<header data-design-id="header-workspace-d78cb4" class="h-12 border-b border-[#D8D4CE] flex items-center bg-[#F5F2ED]">
+  <div class="w-[220px] h-full border-r border-[#D8D4CE] flex items-center px-5 gap-3"><div class="grid grid-cols-2 gap-[2px] w-3 h-3"><span class="bg-[#273038]"></span><span class="bg-[#273038]"></span><span class="bg-[#273038]"></span><span class="border border-[#273038]"></span></div><span class="text-[11px] font-medium tracking-[.16em]">POPPIN</span></div>
+  <nav data-design-id="nav-workspace-d15cd7" class="flex-1 h-full flex items-center justify-between px-5">
+    <div class="flex items-center gap-6"><span class="text-[13px] font-normal">Half-lit Room</span><span class="mono text-[10px] text-[#777B7C]">74 BPM</span><span class="mono text-[10px] text-[#777B7C]">D MAJOR</span><span class="mono text-[10px] text-[#777B7C]">4/4</span></div>
+    <div class="flex items-center gap-6 text-[10px] tracking-[.1em] uppercase"><a href="#" class="text-[#8B8E8C]">Structure</a><a href="#" class="text-[#8B8E8C]">History</a><span class="mono flex items-center gap-2"><i class="fa-solid fa-square text-[7px] text-[#C3B8D4]"></i> Reaper / synced</span></div>
+  </nav>
+</header>
+<main data-design-id="main-composition-d5e20a" class="h-[852px] grid grid-cols-[220px_1fr_240px] grid-rows-[1fr_64px]">
+  <aside data-design-id="aside-agents-d9a8e3" class="row-start-1 border-r border-[#D8D4CE] bg-[#F5F2ED] p-4">
+    <div class="flex justify-between items-center mb-6"><span class="text-[10px] font-medium tracking-[.15em] uppercase">Session agents</span><span class="mono text-[9px] text-[#999A96]">03</span></div>
+    <div class="space-y-2">
+      <article data-design-id="agent-harmony-dc1359" class="border border-[#D8D4CE] bg-[#FBFAF7] p-3">
+        <div class="flex justify-between"><span class="text-[13px] font-normal">Harmony</span><i class="fa-solid fa-square text-[7px] text-[#B8C8D4] mt-1.5"></i></div><div class="mt-3 flex justify-between mono text-[9px] text-[#777B7C]"><span>COMMITTED</span><span>8 BARS</span></div>
+      </article>
+      <article data-design-id="agent-bass-d5a3e7" class="border border-[#D8D4CE] bg-[#FBFAF7] p-3">
+        <div class="flex justify-between"><span class="text-[13px] font-normal">Bass</span><i class="fa-solid fa-square text-[7px] text-[#D4C8B8] mt-1.5"></i></div><div class="mt-3 flex justify-between mono text-[9px] text-[#777B7C]"><span>GENERATING</span><span class="flex gap-[3px] items-center"><b class="w-1 h-1 bg-[#273038]"></b><b class="w-1 h-1 bg-[#9A9B96]"></b><b class="w-1 h-1 bg-[#CDCCC7]"></b></span></div>
+      </article>
+      <article data-design-id="agent-drums-d88e21" class="border border-[#D8D4CE] bg-[#FBFAF7] p-3">
+        <div class="flex justify-between"><span class="text-[13px] font-normal">Drums</span><i class="fa-solid fa-square text-[7px] text-[#D4B8C3] mt-1.5"></i></div><div class="mt-3 flex justify-between mono text-[9px] text-[#A2A39E]"><span>IDLE</span><span>—</span></div>
+      </article>
+    </div>
+    <div class="mt-8 border-t border-[#D8D4CE] pt-4"><div class="mono text-[9px] text-[#91928E] mb-3">LOCKS</div><div class="flex items-center justify-between text-[12px]"><span>Harmony · bars 1–8</span><i class="fa-solid fa-lock text-[9px]"></i></div></div>
+    <div class="mt-[370px] mono text-[9px] leading-5 text-[#999A96]">PURE ENGINEERING<br>+ SOFT SKEUOMORPHISM<br>VARIATION / D</div>
+  </aside>
+
+  <section data-design-id="section-midi-canvas-df40d2" class="row-start-1 col-start-2 bg-[#FBFAF7] flex flex-col min-w-0">
+    <div class="h-14 border-b border-[#D8D4CE] px-5 flex items-center gap-2">
+      <span class="mono text-[9px] text-[#999A96] mr-3">SECTIONS</span>
+      <button data-design-id="section-intro-btn-d2e0c7" type="button" class="h-7 px-4 border border-[#D8D4CE] mono text-[9px] text-[#858884]">INTRO · 4</button>
+      <button data-design-id="section-verse-btn-d713f9" type="button" class="h-7 px-4 border border-[#273038] mono text-[9px] bg-[#F5F2ED]">VERSE · 8</button>
+      <button data-design-id="section-pre-btn-d62b11" type="button" class="h-7 px-4 border border-[#D8D4CE] mono text-[9px] text-[#858884]">PRE · 4</button>
+      <button data-design-id="section-chorus-btn-d491ea" type="button" class="h-7 px-4 border border-[#D8D4CE] mono text-[9px] text-[#858884]">CHORUS · 8</button>
+      <button data-design-id="section-bridge-btn-d4c09d" type="button" class="h-7 px-4 border border-[#D8D4CE] mono text-[9px] text-[#858884]">BRIDGE · 8</button>
+    </div>
+    <div class="h-10 border-b border-[#D8D4CE] flex items-center pl-[88px] mono text-[9px] text-[#9A9B97]">
+      <span class="w-32">01</span><span class="w-32">02</span><span class="w-32">03</span><span class="w-32">04</span><span class="w-32">05</span><span class="w-32">06</span><span class="w-32">07</span><span>08</span>
+    </div>
+    <div class="relative flex-1 piano">
+      <div class="absolute inset-y-0 left-[88px] right-0 flex pointer-events-none"><span class="w-32 barline"></span><span class="w-32 barline"></span><span class="w-32 barline"></span><span class="w-32 barline"></span><span class="w-32 barline"></span><span class="w-32 barline"></span><span class="w-32 barline"></span><span class="w-32 barline"></span></div>
+      <div class="absolute inset-y-0 left-0 w-[88px] bg-[#FBFAF7] border-r border-[#D8D4CE]">
+        <div class="h-10 border-b border-[#E5E2DC] px-3 flex items-center mono text-[9px]">HARMONY</div><div class="h-[176px]"></div><div class="h-10 border-y border-[#E5E2DC] px-3 flex items-center mono text-[9px]">BASS</div><div class="h-[176px]"></div><div class="h-10 border-y border-[#E5E2DC] px-3 flex items-center mono text-[9px]">DRUMS</div>
+      </div>
+      <div class="absolute left-[104px] top-[64px] w-20 h-3 bg-[#B8C8D4]"></div><div class="absolute left-[200px] top-[80px] w-24 h-3 bg-[#B8C8D4]"></div><div class="absolute left-[328px] top-[48px] w-24 h-3 bg-[#B8C8D4]"></div><div class="absolute left-[456px] top-[96px] w-24 h-3 bg-[#B8C8D4]"></div><div class="absolute left-[584px] top-[64px] w-24 h-3 bg-[#B8C8D4]"></div><div class="absolute left-[712px] top-[112px] w-24 h-3 bg-[#B8C8D4]"></div>
+      <div class="absolute left-[120px] top-[272px] w-12 h-3 bg-[#D4C8B8]"></div><div class="absolute left-[232px] top-[304px] w-8 h-3 bg-[#D4C8B8]"></div><div class="absolute left-[360px] top-[288px] w-16 h-3 bg-[#D4C8B8]"></div><div class="absolute left-[488px] top-[256px] w-10 h-3 bg-[#D4C8B8]"></div><div class="absolute left-[616px] top-[320px] w-20 h-3 border border-[#D4C8B8]"></div>
+      <div class="absolute left-[112px] top-[504px] w-3 h-3 bg-[#D4B8C3]"></div><div class="absolute left-[176px] top-[504px] w-3 h-3 bg-[#D4B8C3]"></div><div class="absolute left-[240px] top-[504px] w-3 h-3 bg-[#D4B8C3]"></div><div class="absolute left-[304px] top-[504px] w-3 h-3 bg-[#D4B8C3]"></div>
+      <div class="absolute top-0 bottom-0 left-[600px] w-px bg-[#273038]"><span class="absolute -top-1 -left-[3px] w-[7px] h-[7px] bg-[#273038]"></span></div>
+      <div class="absolute right-4 top-4 border border-[#D8D4CE] bg-[#F5F2ED] h-7 px-3 flex items-center gap-2 mono text-[9px]"><span>A/B/C</span><b class="w-1.5 h-1.5 bg-[#273038]"></b><b class="w-1.5 h-1.5 border border-[#999A96]"></b><b class="w-1.5 h-1.5 border border-[#999A96]"></b></div>
+    </div>
+  </section>
+
+  <aside data-design-id="aside-context-de3092" class="row-start-1 col-start-3 border-l border-[#D8D4CE] bg-[#F5F2ED] p-4">
+    <div class="flex justify-between mb-6"><span class="text-[10px] font-medium tracking-[.15em] uppercase">Current context</span><span class="mono text-[9px] text-[#999A96]">SEL</span></div>
+    <div class="border-t border-[#D8D4CE] pt-4"><span class="mono text-[9px] text-[#898B89]">SELECTION</span><div class="mt-2 text-[17px]">Verse · bars 5–8</div><div class="mono text-[10px] mt-2 text-[#777B7C]">Dmaj7 · Bm7 · Gmaj7 · Asus</div></div>
+    <div class="border-t border-[#D8D4CE] mt-6 pt-4"><span class="mono text-[9px] text-[#898B89]">INTENTION</span><p class="mt-2 text-[14px] leading-6">Quiet and reflective. Let the bass begin pulling forward after bar 5, but keep space for melody.</p></div>
+    <div class="border-t border-[#D8D4CE] mt-6 pt-4"><span class="mono text-[9px] text-[#898B89]">LOCKED</span><div class="mt-3 space-y-2 text-[12px]"><div class="flex justify-between"><span>Harmony · 1–8</span><i class="fa-solid fa-lock text-[9px]"></i></div><div class="flex justify-between text-[#999A96]"><span>Bass</span><span>OPEN</span></div><div class="flex justify-between text-[#999A96]"><span>Drums</span><span>OPEN</span></div></div></div>
+    <div class="border-t border-[#D8D4CE] mt-6 pt-4"><span class="mono text-[9px] text-[#898B89]">LAST DECISION</span><p class="mt-2 text-[12px] leading-5 text-[#777B7C]">Harmony B committed. Bars 1–2 spliced from A.</p></div>
+  </aside>
+
+  <section data-design-id="section-command-bar-dd2f4c" class="col-span-3 row-start-2 border-t border-[#BEBBB5] bg-[#FBFAF7] grid grid-cols-[220px_1fr_240px]">
+    <div class="border-r border-[#D8D4CE] px-4 flex items-center gap-3 mono text-[9px]"><button data-design-id="transport-play-d81e2f" type="button" class="w-8 h-8 border border-[#D8D4CE]"><i class="fa-solid fa-play text-[9px]"></i></button><button data-design-id="transport-loop-d1a9f4" type="button" class="w-8 h-8 border border-[#D8D4CE]"><i class="fa-solid fa-repeat text-[9px]"></i></button><button data-design-id="transport-stop-d02dc9" type="button" class="w-8 h-8 border border-[#D8D4CE]"><i class="fa-solid fa-stop text-[9px]"></i></button></div>
+    <form data-design-id="form-command-d39cc2" action="#" class="flex items-center gap-3 px-4"><span class="mono text-[11px]">→</span><input class="flex-1 bg-transparent text-[14px] outline-none h-9" value="Make the bass less eager in bar 6. Keep harmony exactly as it is."><span class="mono text-[9px] text-[#999A96]">⌘↵</span><button data-design-id="button-generate-d8df51" type="button" class="h-9 px-5 bg-[#273038] text-[#FBFAF7] text-[10px] tracking-[.12em] uppercase">Generate</button></form>
+    <div class="border-l border-[#D8D4CE] flex items-center px-4 justify-between"><span class="mono text-[9px] text-[#777B7C]">BASS / THINKING</span><span class="flex gap-[3px]"><b class="w-1 h-1 bg-[#273038]"></b><b class="w-1 h-1 bg-[#999A96]"></b><b class="w-1 h-1 bg-[#D8D4CE]"></b></span></div>
+  </section>
+</main>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"f0f03d0605bf45f1a3b17cf7d5e6861f","spa":2}' crossorigin="anonymous"></script>
+</body></html>

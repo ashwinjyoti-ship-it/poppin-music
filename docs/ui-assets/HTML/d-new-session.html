@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    body{font-family:'DM Sans',sans-serif} .mono{font-family:'IBM Plex Mono',monospace}
+    input:focus,textarea:focus{outline:none;border-color:#273038}
+    /* soft skeuomorphic layer (40%) */
+    body{background:radial-gradient(ellipse at 50% 0%,#F8F5F0 0%,#F0EDE6 100%) !important}
+    .bg-\[\#FBFAF7\]{background:linear-gradient(160deg,#FFFFFF 0%,#F7F5F0 100%) !important;box-shadow:inset 0 1px 0 rgba(255,255,255,.6),inset 1px 0 0 rgba(255,255,255,.3),inset 0 -1px 0 rgba(0,0,0,.06),inset -1px 0 0 rgba(0,0,0,.04),0 1px 3px rgba(0,0,0,.06),0 4px 12px rgba(0,0,0,.04)}
+    header{box-shadow:0 1px 0 rgba(255,255,255,.85),0 2px 6px rgba(0,0,0,.04)}
+    .border-t{box-shadow:0 -1px 0 rgba(255,255,255,.85)}
+    button{background-image:linear-gradient(180deg,#F0EDE8 0%,#E0DDD8 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 2px 6px rgba(0,0,0,.10);transition:box-shadow .15s,background-image .15s}
+    button:hover{background-image:linear-gradient(180deg,#EDEAE4 0%,#E3E0DA 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 3px 9px rgba(0,0,0,.10)}
+    button.bg-\[\#273038\]{background-image:linear-gradient(180deg,#1A1A1A 0%,#0D0D0D 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 2px 8px rgba(0,0,0,.25)}
+    button.bg-\[\#273038\]:hover{background-image:linear-gradient(180deg,#242424 0%,#111111 100%)}
+    input,textarea{background:#EDEAE4 !important;box-shadow:inset 0 1px 3px rgba(0,0,0,.10),inset 0 1px 1px rgba(0,0,0,.06)}
+    input:focus,textarea:focus{box-shadow:inset 0 1px 4px rgba(0,0,0,.14)}
+    .bg-\[\#B8C8D4\]{background:linear-gradient(180deg,#BFCEDA 0%,#AEBECB 100%);border-top:1px solid rgba(255,255,255,.5);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+    .bg-\[\#D4C8B8\]{background:linear-gradient(180deg,#DACFC0 0%,#C9BCAA 100%);border-top:1px solid rgba(255,255,255,.5);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+    .bg-\[\#D4B8C3\]{background:linear-gradient(180deg,#DABFCA 0%,#C9AAB6 100%);border-top:1px solid rgba(255,255,255,.5);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+    .bg-\[\#B8D4C3\]{background:linear-gradient(180deg,#C3DDCD 0%,#ACCAB7 100%);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+    .bg-\[\#C3B8D4\]{background:linear-gradient(180deg,#CABFDA 0%,#B5AAC9 100%);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+  </style>
+</head>
+<body class="w-[1440px] min-h-[900px] bg-[#F5F2ED] text-[#273038] font-light">
+  <header data-design-id="header-app-d1f20c" class="h-12 border-b border-[#D8D4CE] flex items-center justify-between px-8 bg-[#F5F2ED]">
+    <div class="flex items-center gap-4">
+      <div class="grid grid-cols-2 gap-[2px] w-3 h-3" aria-hidden="true"><span class="bg-[#273038]"></span><span class="bg-[#273038]"></span><span class="bg-[#273038]"></span><span class="border border-[#273038]"></span></div>
+      <span class="text-[13px] font-medium tracking-[0.18em] uppercase">Poppin Music</span>
+      <span class="mono text-[10px] text-[#8D908F]">/ SESSION LAB</span>
+    </div>
+    <nav data-design-id="nav-primary-d38d1e" class="flex h-full items-center gap-8 text-[11px] tracking-[0.12em] uppercase">
+      <a href="#" class="h-full flex items-center border-b border-[#273038]">New session</a>
+      <a href="#" class="text-[#8D908F]">Open</a>
+      <a href="#" class="text-[#8D908F]">Bridge</a>
+    </nav>
+    <div class="mono flex items-center gap-3 text-[10px] text-[#747A7D]"><span class="w-2 h-2 bg-[#C3B8D4]"></span> REAPER / CONNECTED</div>
+  </header>
+
+  <main data-design-id="main-new-session-d3c7a9" class="relative min-h-[852px] px-24 pt-16 pb-20">
+    <div class="absolute top-8 right-10 mono text-[10px] tracking-[0.18em] text-[#A3A29E]">VARIATION D / PURE ENGINEERING + SOFT SKEUOMORPHISM</div>
+    <section data-design-id="intro-session-d2d6e4" class="max-w-[1120px] mx-auto grid grid-cols-[360px_1fr] gap-24">
+      <div class="pt-4">
+        <div class="mono text-[10px] tracking-[0.16em] text-[#8D908F] mb-8">NEW / 001</div>
+        <h1 class="text-[52px] leading-[1.02] font-light tracking-[-0.035em]">Start with what<br>you hear.</h1>
+        <p class="mt-8 max-w-[310px] text-[16px] leading-7 text-[#646A6B]">No theory required. Set the room, describe the feeling, then let the session musicians make it audible.</p>
+        <div class="mt-16 border-t border-[#D8D4CE] pt-4 flex items-start gap-4">
+          <span class="w-2 h-2 bg-[#B8D4C3] mt-1.5"></span>
+          <p class="mono text-[10px] leading-5 text-[#747A7D] uppercase">Human contract<br><span class="text-[#273038] normal-case">You provide taste. The system provides technique.</span></p>
+        </div>
+      </div>
+
+      <form data-design-id="form-new-session-d74ac2" action="#" class="bg-[#FBFAF7] border border-[#D8D4CE] p-10">
+        <div class="flex justify-between items-start border-b border-[#D8D4CE] pb-5 mb-8">
+          <div><h2 class="text-[20px] font-normal">Blank session</h2><p class="text-[13px] text-[#858885] mt-1">A quiet place to begin.</p></div>
+          <span class="mono text-[10px] text-[#A3A29E]">UNSAVED</span>
+        </div>
+
+        <div class="grid grid-cols-3 gap-6">
+          <label class="block"><span class="block text-[10px] tracking-[0.15em] uppercase font-medium mb-3">Tempo</span><div class="relative"><input class="mono w-full h-12 bg-transparent border-b border-[#BEBBB5] text-[18px] pr-10" value="74"><span class="mono absolute right-0 top-4 text-[10px] text-[#8D908F]">BPM</span></div></label>
+          <label class="block"><span class="block text-[10px] tracking-[0.15em] uppercase font-medium mb-3">Key centre</span><div class="relative"><input class="mono w-full h-12 bg-transparent border-b border-[#BEBBB5] text-[18px]" value="D major"><i class="fa-solid fa-chevron-down absolute right-0 top-4 text-[9px] text-[#8D908F]"></i></div></label>
+          <label class="block"><span class="block text-[10px] tracking-[0.15em] uppercase font-medium mb-3">Meter</span><div class="relative"><input class="mono w-full h-12 bg-transparent border-b border-[#BEBBB5] text-[18px]" value="4 / 4"><i class="fa-solid fa-chevron-down absolute right-0 top-4 text-[9px] text-[#8D908F]"></i></div></label>
+        </div>
+
+        <label class="block mt-10"><span class="flex justify-between text-[10px] tracking-[0.15em] uppercase font-medium mb-3"><span>Intention / feeling</span><span class="mono text-[#A3A29E] normal-case tracking-normal">plain language</span></span><textarea class="w-full h-28 resize-none bg-transparent border border-[#BEBBB5] p-4 text-[17px] leading-7" placeholder="8 bars. Quiet and reflective. Slightly unresolved. Simple enough to leave room for a melody."></textarea></label>
+
+        <label class="block mt-8"><span class="flex justify-between text-[10px] tracking-[0.15em] uppercase font-medium mb-3"><span>Artist reference</span><span class="mono text-[#A3A29E] normal-case tracking-normal">optional / research only</span></span><input class="w-full h-12 bg-transparent border-b border-[#BEBBB5] text-[15px]" placeholder="e.g. spacious early-70s folk, without imitation"></label>
+
+        <div class="mt-10 flex items-center justify-between">
+          <div class="flex items-center gap-5 mono text-[10px] text-[#747A7D]"><span class="flex items-center gap-2"><i class="fa-solid fa-square text-[7px] text-[#B8C8D4]"></i> HARMONY</span><span class="flex items-center gap-2"><i class="fa-solid fa-square text-[7px] text-[#D4C8B8]"></i> BASS</span><span class="flex items-center gap-2"><i class="fa-solid fa-square text-[7px] text-[#D4B8C3]"></i> DRUMS</span></div>
+          <button data-design-id="button-create-session-dc9a81" type="button" class="h-12 px-7 bg-[#273038] text-[#FBFAF7] text-[11px] tracking-[0.14em] uppercase hover:bg-[#3C454B] transition-colors">Create session <i class="fa-solid fa-arrow-right ml-3 text-[9px]"></i></button>
+        </div>
+      </form>
+    </section>
+
+    <section data-design-id="session-note-d921be" class="max-w-[1120px] mx-auto mt-14 flex justify-end">
+      <div class="w-[664px] grid grid-cols-[120px_1fr] border-t border-[#D8D4CE] pt-4 text-[12px] leading-5"><span class="mono text-[9px] tracking-[0.12em] text-[#8D908F]">FIRST MOVE</span><p class="text-[#646A6B]">Harmony, bass or drums can begin. Context starts only after you commit something worth keeping.</p></div>
+    </section>
+  </main>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"f0f03d0605bf45f1a3b17cf7d5e6861f","spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>
