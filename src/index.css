@@ -1,0 +1,169 @@
+:root {
+  color-scheme: dark;
+  --bg: #0e0b1a;
+  --panel: #1a1530;
+  --panel-2: #221b3d;
+  --accent: #ff3d8b;
+  --accent-2: #7c5cff;
+  --text: #f4f1ff;
+  --muted: #a99fce;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(1200px 600px at 20% -10%, #2a1a4d 0%, var(--bg) 55%);
+  color: var(--text);
+}
+
+.app {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 4rem;
+}
+
+.hero h1 {
+  font-size: 2.6rem;
+  margin: 0;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero .emoji {
+  -webkit-text-fill-color: initial;
+}
+
+.tagline {
+  color: var(--muted);
+  margin: 0.4rem 0 2rem;
+}
+
+.add-form {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.add-form input {
+  flex: 1 1 180px;
+  padding: 0.7rem 0.9rem;
+  border-radius: 10px;
+  border: 1px solid #3a2f63;
+  background: var(--panel);
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.add-form input:focus {
+  outline: 2px solid var(--accent-2);
+  border-color: transparent;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.7rem 1rem;
+  transition: transform 0.05s ease, filter 0.15s ease;
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+.add-form button {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  color: white;
+}
+
+button:disabled {
+  filter: grayscale(0.5) opacity(0.6);
+  cursor: default;
+}
+
+.leaderboard {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.track {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  background: var(--panel);
+  border: 1px solid #2c2450;
+  border-radius: 14px;
+  padding: 0.8rem 1rem;
+}
+
+.rank {
+  font-weight: 800;
+  color: var(--accent);
+  width: 2.2rem;
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  font-weight: 700;
+}
+
+.artist {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.votes {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.upvote {
+  background: var(--panel-2);
+  color: var(--text);
+  border: 1px solid #3a2f63;
+}
+
+.upvote:hover {
+  filter: brightness(1.25);
+}
+
+.remove {
+  background: transparent;
+  color: var(--muted);
+  padding: 0.5rem 0.6rem;
+}
+
+.remove:hover {
+  color: var(--accent);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.footer {
+  margin-top: 2.5rem;
+  text-align: center;
+  font-size: 0.85rem;
+}
