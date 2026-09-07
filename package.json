@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "packageManager": "pnpm@10.34.5",
-  "description": "Local-first musical intelligence — hear sketches in Poppin, then GarageBand or Reaper.",
+  "description": "Local-first musical intelligence — hear sketches in Poppin, then send to GarageBand.",
   "scripts": {
     "dev": "pnpm --filter @poppin/host dev",
     "dev:desktop": "pnpm --filter @poppin/host dev:desktop",

@@ -5,9 +5,7 @@ import {
   keepSession,
   midiDownloadUrl,
   sendToGarageBand,
-  sendToReaper,
   type GarageBandStatus,
-  type ReaperStatus,
   type SessionRecord,
 } from "../lib/api";
 import { SketchPreviewPlayer, type PreviewPlayerState } from "../lib/preview-player";
@@ -15,7 +13,6 @@ import type { PMRSketch } from "@poppin/pmr";
 
 type Props = {
   session: SessionRecord;
-  reaper: ReaperStatus | null;
   busy: boolean;
   error: string | null;
   onChange: (session: SessionRecord) => void;
@@ -75,7 +72,6 @@ function MiniPreview({
 
 export function Audition({
   session,
-  reaper,
   busy,
   error,
   onChange,
@@ -176,7 +172,6 @@ export function Audition({
         variant="audition"
         songTitle="Half-lit Room"
         meta={`${session.tempo} BPM · ${session.key.toUpperCase()} · ${session.meter}`}
-        reaper={session.reaper ?? reaper}
         garageBand={session.garageBand}
         previewPlaying={preview.playing}
         onNewSession={onNewSession}
@@ -283,7 +278,7 @@ export function Audition({
               </button>
               <button
                 type="button"
-                className="btn h-10 border border-[#BEBBB5] text-[10px] tracking-[.12em] uppercase"
+                className="btn col-span-2 h-10 border border-[#BEBBB5] text-[10px] tracking-[.12em] uppercase"
                 disabled={busy}
                 onClick={() =>
                   run("Generate failed", async () => (await generateSession(session.id)).session)
@@ -300,17 +295,6 @@ export function Audition({
                 )}
                 {sketch ? "Regenerate" : "Generate"}
               </button>
-              <button
-                type="button"
-                className="btn h-10 border border-[#BEBBB5] text-[10px] tracking-[.1em] uppercase text-[#747A7D]"
-                disabled={busy || !sketch}
-                onClick={() =>
-                  run("Send to Reaper failed", async () => (await sendToReaper(session.id)).session)
-                }
-                title="Optional — Reaper is not required to hear the sketch"
-              >
-                Reaper (optional)
-              </button>
             </div>
           </article>
 
@@ -323,19 +307,6 @@ export function Audition({
               {session.garageBand?.midiPath ? (
                 <p className="mono text-[9px] text-[#777B7C] mt-4 break-all">
                   {session.garageBand.midiPath}
-                </p>
-              ) : null}
-            </div>
-            <div className="panel-surface bg-[#FBFAF7] border border-[#D8D4CE] p-5">
-              <div className="mono text-[9px] text-[#8D908F] mb-3">REAPER (OPTIONAL)</div>
-              <p className="text-[13px] leading-6 text-[#646A6B]">
-                {session.reaper?.midiFiles.harmony
-                  ? "Reaper project ready with Harmony / Bass / Drums. Not required for audition."
-                  : "Keep using Play + GarageBand. Reaper send stays available if you want it."}
-              </p>
-              {session.reaper?.projectPath ? (
-                <p className="mono text-[9px] text-[#777B7C] mt-4 break-all">
-                  {session.reaper.projectPath}
                 </p>
               ) : null}
             </div>

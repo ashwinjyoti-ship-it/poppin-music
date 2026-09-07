@@ -1,9 +1,8 @@
 import { FormEvent, ReactNode, useState } from "react";
 import { Header } from "../components/Header";
-import { createSession, type ReaperStatus, type SessionRecord } from "../lib/api";
+import { createSession, type SessionRecord } from "../lib/api";
 
 type Props = {
-  reaper: ReaperStatus | null;
   onCreated: (session: SessionRecord) => void;
 };
 
@@ -35,7 +34,7 @@ function Field({
   );
 }
 
-export function NewSession({ reaper, onCreated }: Props) {
+export function NewSession({ onCreated }: Props) {
   const [tempo, setTempo] = useState("74");
   const [key, setKey] = useState("D");
   const [centre, setCentre] = useState("major");
@@ -69,7 +68,7 @@ export function NewSession({ reaper, onCreated }: Props) {
 
   return (
     <div className="min-h-screen">
-      <Header variant="lab" reaper={reaper} />
+      <Header variant="lab" />
       <main className="relative min-h-[calc(100vh-48px)] px-10 xl:px-24 pt-16 pb-20">
         <div className="absolute top-8 right-10 mono text-[10px] tracking-[0.18em] text-[#A3A29E]">
           PHASE 1 / NEW SESSION
@@ -230,7 +229,7 @@ export function NewSession({ reaper, onCreated }: Props) {
             <span className="mono text-[9px] tracking-[0.12em] text-[#8D908F]">FIRST MOVE</span>
             <p className="text-[#646A6B]">
               Generate a sketch, press Play to hear it in Poppin, then send to GarageBand (or keep /
-              regenerate). Reaper is optional. The canvas waits until this loop feels alive.
+              regenerate). The canvas waits until this loop feels alive.
             </p>
           </div>
         </section>

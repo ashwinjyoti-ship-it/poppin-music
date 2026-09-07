@@ -109,12 +109,6 @@ export function sendToGarageBand(id: string) {
   });
 }
 
-export function sendToReaper(id: string) {
-  return request<{ session: SessionRecord; status: ReaperStatus }>(`/api/sessions/${id}/reaper`, {
-    method: "POST",
-  });
-}
-
 export function keepSession(id: string) {
   return request<{ session: SessionRecord }>(`/api/sessions/${id}/keep`, {
     method: "POST",

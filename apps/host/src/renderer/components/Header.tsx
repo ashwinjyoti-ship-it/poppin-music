@@ -1,11 +1,10 @@
 import { LogoMark } from "./LogoMark";
-import type { GarageBandStatus, ReaperStatus } from "../lib/api";
+import type { GarageBandStatus } from "../lib/api";
 
 type Props = {
   variant: "lab" | "audition";
   songTitle?: string;
   meta?: string;
-  reaper?: ReaperStatus | null;
   garageBand?: GarageBandStatus | null;
   previewPlaying?: boolean;
   onNewSession?: () => void;
@@ -15,7 +14,6 @@ export function Header({
   variant,
   songTitle,
   meta,
-  reaper,
   garageBand,
   previewPlaying,
   onNewSession,
@@ -25,9 +23,6 @@ export function Header({
     if (garageBand?.label === "OPENED") return "GARAGEBAND / OPENED";
     if (garageBand?.label === "FILES READY") return "GARAGEBAND / MIDI READY";
     if (garageBand?.label === "ERROR") return "GARAGEBAND / ERROR";
-    if (reaper?.label === "CONNECTED") return "REAPER / CONNECTED";
-    if (reaper?.label === "FILES READY") return "REAPER / FILES READY";
-    if (reaper?.label === "ERROR") return "REAPER / ERROR";
     return "READY TO HEAR";
   };
 
@@ -42,7 +37,6 @@ export function Header({
         <nav className="flex h-full items-center gap-8 text-[11px] tracking-[0.12em] uppercase">
           <span className="h-full flex items-center border-b border-[#273038]">New session</span>
           <span className="text-[#8D908F]">Open</span>
-          <span className="text-[#8D908F]">Bridge</span>
         </nav>
         <div className="mono flex items-center gap-3 text-[10px] text-[#747A7D]">
           <span className="w-2 h-2 bg-[#C3B8D4]" />
