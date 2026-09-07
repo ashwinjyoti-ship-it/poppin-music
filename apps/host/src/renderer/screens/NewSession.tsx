@@ -229,8 +229,8 @@ export function NewSession({ reaper, onCreated }: Props) {
           <div className="w-[664px] grid grid-cols-[120px_1fr] border-t border-[#D8D4CE] pt-4 text-[12px] leading-5">
             <span className="mono text-[9px] tracking-[0.12em] text-[#8D908F]">FIRST MOVE</span>
             <p className="text-[#646A6B]">
-              Generate a sketch, send it to Reaper, then keep or regenerate. The canvas waits until
-              this loop feels alive.
+              Generate a sketch, press Play to hear it in Poppin, then send to GarageBand (or keep /
+              regenerate). Reaper is optional. The canvas waits until this loop feels alive.
             </p>
           </div>
         </section>

@@ -12,6 +12,16 @@ export type ReaperStatus = {
   label: "CONNECTED" | "FILES READY" | "IDLE" | "ERROR";
 };
 
+export type GarageBandStatus = {
+  appFound: boolean;
+  appPath: string | null;
+  midiPath: string | null;
+  lastWrite: string | null;
+  lastError: string | null;
+  opened: boolean;
+  label: "OPENED" | "FILES READY" | "IDLE" | "ERROR";
+};
+
 export type SessionRecord = {
   id: string;
   createdAt: string;
@@ -30,16 +40,22 @@ export type SessionRecord = {
     bass: Array<{
       bar: number;
       role?: string;
-      events: Array<{ pitch: string; startBeat: number; durationBeats: number }>;
+      events: Array<{ pitch: string; startBeat: number; durationBeats: number; velocity?: number }>;
     }>;
     drums: Array<{
       bar: number;
-      events: Array<{ voice: string; startBeat: number }>;
+      events: Array<{
+        voice: string;
+        startBeat: number;
+        durationBeats?: number;
+        velocity?: number;
+      }>;
     }>;
   } | null;
   explanation: string | null;
   logs: string[];
   reaper: ReaperStatus | null;
+  garageBand: GarageBandStatus | null;
   generateSource: "gateway" | "fallback" | null;
 };
 
@@ -59,7 +75,9 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 export function getStatus() {
-  return request<{ reaper: ReaperStatus; ok: boolean }>("/api/status");
+  return request<{ reaper: ReaperStatus; garageBand: GarageBandStatus; ok: boolean }>(
+    "/api/status",
+  );
 }
 
 export function createSession(body: {
@@ -81,6 +99,16 @@ export function generateSession(id: string) {
   });
 }
 
+export function sendToGarageBand(id: string) {
+  return request<{
+    session: SessionRecord;
+    status: GarageBandStatus;
+    downloadPath: string;
+  }>(`/api/sessions/${id}/garageband`, {
+    method: "POST",
+  });
+}
+
 export function sendToReaper(id: string) {
   return request<{ session: SessionRecord; status: ReaperStatus }>(`/api/sessions/${id}/reaper`, {
     method: "POST",
@@ -91,4 +119,8 @@ export function keepSession(id: string) {
   return request<{ session: SessionRecord }>(`/api/sessions/${id}/keep`, {
     method: "POST",
   });
+}
+
+export function midiDownloadUrl(id: string): string {
+  return `/api/sessions/${id}/midi`;
 }

@@ -1,11 +1,17 @@
+import { useEffect, useRef, useState } from "react";
 import { Header } from "../components/Header";
 import {
   generateSession,
   keepSession,
+  midiDownloadUrl,
+  sendToGarageBand,
   sendToReaper,
+  type GarageBandStatus,
   type ReaperStatus,
   type SessionRecord,
 } from "../lib/api";
+import { SketchPreviewPlayer, type PreviewPlayerState } from "../lib/preview-player";
+import type { PMRSketch } from "@poppin/pmr";
 
 type Props = {
   session: SessionRecord;
@@ -18,13 +24,30 @@ type Props = {
   onNewSession: () => void;
 };
 
-function MiniPreview({ session }: { session: SessionRecord }) {
+function formatTime(sec: number): string {
+  const s = Math.max(0, sec);
+  const m = Math.floor(s / 60);
+  const r = Math.floor(s % 60);
+  return `${m}:${r.toString().padStart(2, "0")}`;
+}
+
+function MiniPreview({
+  session,
+  progress,
+}: {
+  session: SessionRecord;
+  progress: number;
+}) {
   const sketch = session.sketch;
   if (!sketch) {
     return <div className="mini-roll h-48 border-b border-[#D8D4CE]" />;
   }
   return (
     <div className="mini-roll h-48 relative border-b border-[#D8D4CE] overflow-hidden">
+      <div
+        className="absolute top-0 bottom-0 w-px bg-[#273038]/70 z-10"
+        style={{ left: `${Math.min(100, Math.max(0, progress * 100))}%` }}
+      />
       {sketch.harmony.slice(0, 8).map((row, i) => (
         <span
           key={`h-${row.bar}`}
@@ -61,6 +84,32 @@ export function Audition({
   onNewSession,
 }: Props) {
   const sketch = session.sketch;
+  const playerRef = useRef<SketchPreviewPlayer | null>(null);
+  const [preview, setPreview] = useState<PreviewPlayerState>({
+    playing: false,
+    currentSec: 0,
+    durationSec: 0,
+  });
+
+  useEffect(() => {
+    const player = new SketchPreviewPlayer();
+    playerRef.current = player;
+    const unsub = player.subscribe(setPreview);
+    return () => {
+      unsub();
+      player.dispose();
+      playerRef.current = null;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (sketch && playerRef.current) {
+      playerRef.current.load(sketch as PMRSketch);
+    } else {
+      playerRef.current?.stop();
+    }
+  }, [sketch]);
+
   const bassPath = sketch?.bass
     .flatMap((bar) => bar.events.map((event) => event.pitch))
     .slice(0, 8)
@@ -79,6 +128,48 @@ export function Audition({
     }
   }
 
+  async function handlePlayStop() {
+    const player = playerRef.current;
+    if (!player || !sketch) return;
+    onError(null);
+    try {
+      if (preview.playing) {
+        player.stop();
+      } else {
+        await player.play();
+      }
+    } catch (err) {
+      onError(err instanceof Error ? err.message : "Preview failed");
+    }
+  }
+
+  async function handleGarageBand() {
+    await run("Send to GarageBand failed", async () => {
+      const result = await sendToGarageBand(session.id);
+      // Browser / non-Mac: offer a download so Ash still gets a .mid
+      if (!result.status.opened) {
+        const link = document.createElement("a");
+        link.href = midiDownloadUrl(session.id);
+        link.download = "Poppin_Sketch.mid";
+        link.click();
+      }
+      return result.session;
+    });
+  }
+
+  const progress =
+    preview.durationSec > 0 ? preview.currentSec / preview.durationSec : 0;
+
+  const garageBandHint = (status: GarageBandStatus | null): string => {
+    if (!status?.midiPath) {
+      return "Play in Poppin first. Then send a multi-track MIDI to GarageBand (Mac opens it when installed; otherwise downloads sketch.mid).";
+    }
+    if (status.opened) {
+      return "Opened in GarageBand. If GarageBand asks, import the MIDI into a new project.";
+    }
+    return "MIDI is ready. On Mac with GarageBand installed it opens automatically; otherwise use the downloaded sketch.mid.";
+  };
+
   return (
     <div className="min-h-screen">
       <Header
@@ -86,6 +177,8 @@ export function Audition({
         songTitle="Half-lit Room"
         meta={`${session.tempo} BPM · ${session.key.toUpperCase()} · ${session.meter}`}
         reaper={session.reaper ?? reaper}
+        garageBand={session.garageBand}
+        previewPlaying={preview.playing}
         onNewSession={onNewSession}
       />
       <main className="min-h-[calc(100vh-48px)] px-14 py-10">
@@ -102,7 +195,11 @@ export function Audition({
               {session.tempo} BPM · {session.key.toUpperCase()} · {session.meter}
             </span>
             <span className="mono px-3 h-7 border border-[#D8D4CE] flex items-center text-[9px]">
-              {session.generateSource === "gateway" ? "GATEWAY" : session.generateSource === "fallback" ? "FALLBACK" : "READY"}
+              {session.generateSource === "gateway"
+                ? "GATEWAY"
+                : session.generateSource === "fallback"
+                  ? "FALLBACK"
+                  : "READY"}
             </span>
           </div>
         </section>
@@ -125,12 +222,39 @@ export function Audition({
                 </div>
               </div>
             </div>
-            <MiniPreview session={session} />
+            <MiniPreview session={session} progress={progress} />
+            <div className="px-5 py-3 border-b border-[#D8D4CE] flex items-center gap-3">
+              <button
+                type="button"
+                className="btn btn-primary h-9 px-4 text-[10px] tracking-[.12em] uppercase"
+                disabled={busy || !sketch}
+                onClick={() => void handlePlayStop()}
+              >
+                <i
+                  className={`fa-solid ${preview.playing ? "fa-stop" : "fa-play"} mr-2 text-[8px]`}
+                />
+                {preview.playing ? "Stop" : "Play"}
+              </button>
+              <input
+                type="range"
+                min={0}
+                max={preview.durationSec || 1}
+                step={0.05}
+                value={preview.currentSec}
+                disabled={!sketch || preview.durationSec <= 0}
+                className="flex-1 accent-[#273038]"
+                onChange={(e) => playerRef.current?.seek(Number(e.target.value))}
+                aria-label="Scrub preview"
+              />
+              <span className="mono text-[9px] text-[#777B7C] w-[72px] text-right">
+                {formatTime(preview.currentSec)} / {formatTime(preview.durationSec)}
+              </span>
+            </div>
             <div className="p-5 flex-1">
               <span className="mono text-[9px] text-[#8D908F]">WHY IT MOVES</span>
               <p className="mt-3 text-[14px] leading-6">
                 {session.explanation ??
-                  "Generate a sketch to hear harmony, bass and drums as one room."}
+                  "Generate a sketch, then press Play to hear harmony, bass and drums in Poppin."}
               </p>
               <div className="mt-5 mono text-[9px] text-[#777B7C]">
                 {sketch ? sketch.harmony.map((row) => row.chord).join(" · ") : "—"}
@@ -140,24 +264,26 @@ export function Audition({
             <div className="p-4 border-t border-[#D8D4CE] grid grid-cols-2 gap-2">
               <button
                 type="button"
-                className="btn h-10 border border-[#BEBBB5] text-[10px] tracking-[.12em] uppercase"
+                className="btn btn-primary h-10 text-[10px] tracking-[.12em] uppercase"
                 disabled={busy || !sketch}
-                onClick={() => run("Send to Reaper failed", async () => (await sendToReaper(session.id)).session)}
+                onClick={() => void handleGarageBand()}
               >
-                <i className="fa-solid fa-play mr-2 text-[8px]" />
-                Send to Reaper
+                <i className="fa-solid fa-arrow-up-right-from-square mr-2 text-[8px]" />
+                Send to GarageBand
               </button>
               <button
                 type="button"
                 className="btn btn-keep h-10 text-[10px] tracking-[.12em] uppercase font-medium"
                 disabled={busy || !sketch}
-                onClick={() => run("Keep failed", async () => (await keepSession(session.id)).session)}
+                onClick={() =>
+                  run("Keep failed", async () => (await keepSession(session.id)).session)
+                }
               >
                 {session.committed ? "Kept" : "Keep this"}
               </button>
               <button
                 type="button"
-                className="btn btn-primary col-span-2 h-10 text-[10px] tracking-[.12em] uppercase"
+                className="btn h-10 border border-[#BEBBB5] text-[10px] tracking-[.12em] uppercase"
                 disabled={busy}
                 onClick={() =>
                   run("Generate failed", async () => (await generateSession(session.id)).session)
@@ -165,7 +291,7 @@ export function Audition({
               >
                 {busy ? (
                   <span className="generating-dots inline-flex gap-[3px] mr-3 align-middle">
-                    <b className="w-1 h-1 bg-[#FBFAF7] block" />
+                    <b className="w-1 h-1 bg-[#273038] block" />
                     <b className="w-1 h-1 bg-[#9A9B96] block" />
                     <b className="w-1 h-1 bg-[#CDCCC7] block" />
                   </span>
@@ -174,16 +300,38 @@ export function Audition({
                 )}
                 {sketch ? "Regenerate" : "Generate"}
               </button>
+              <button
+                type="button"
+                className="btn h-10 border border-[#BEBBB5] text-[10px] tracking-[.1em] uppercase text-[#747A7D]"
+                disabled={busy || !sketch}
+                onClick={() =>
+                  run("Send to Reaper failed", async () => (await sendToReaper(session.id)).session)
+                }
+                title="Optional — Reaper is not required to hear the sketch"
+              >
+                Reaper (optional)
+              </button>
             </div>
           </article>
 
           <aside className="flex flex-col gap-5">
             <div className="panel-surface bg-[#FBFAF7] border border-[#D8D4CE] p-5">
-              <div className="mono text-[9px] text-[#8D908F] mb-3">REAPER</div>
+              <div className="mono text-[9px] text-[#8D908F] mb-3">HEAR · GARAGEBAND</div>
+              <p className="text-[13px] leading-6 text-[#646A6B]">
+                {garageBandHint(session.garageBand)}
+              </p>
+              {session.garageBand?.midiPath ? (
+                <p className="mono text-[9px] text-[#777B7C] mt-4 break-all">
+                  {session.garageBand.midiPath}
+                </p>
+              ) : null}
+            </div>
+            <div className="panel-surface bg-[#FBFAF7] border border-[#D8D4CE] p-5">
+              <div className="mono text-[9px] text-[#8D908F] mb-3">REAPER (OPTIONAL)</div>
               <p className="text-[13px] leading-6 text-[#646A6B]">
                 {session.reaper?.midiFiles.harmony
-                  ? "Notes are already on Harmony, Bass and Drums. If an empty project is still open, switch to Poppin_Sketch and press play."
-                  : "Generate, then send. Reaper opens with the MIDI on the tracks."}
+                  ? "Reaper project ready with Harmony / Bass / Drums. Not required for audition."
+                  : "Keep using Play + GarageBand. Reaper send stays available if you want it."}
               </p>
               {session.reaper?.projectPath ? (
                 <p className="mono text-[9px] text-[#777B7C] mt-4 break-all">

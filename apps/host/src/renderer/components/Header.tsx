@@ -1,23 +1,35 @@
 import { LogoMark } from "./LogoMark";
-import type { ReaperStatus } from "../lib/api";
+import type { GarageBandStatus, ReaperStatus } from "../lib/api";
 
 type Props = {
   variant: "lab" | "audition";
   songTitle?: string;
   meta?: string;
   reaper?: ReaperStatus | null;
+  garageBand?: GarageBandStatus | null;
+  previewPlaying?: boolean;
   onNewSession?: () => void;
 };
 
-export function Header({ variant, songTitle, meta, reaper, onNewSession }: Props) {
-  const label =
-    reaper?.label === "CONNECTED"
-      ? "REAPER / CONNECTED"
-      : reaper?.label === "FILES READY"
-        ? "REAPER / FILES READY"
-        : reaper?.label === "ERROR"
-          ? "REAPER / ERROR"
-          : "REAPER / IDLE";
+export function Header({
+  variant,
+  songTitle,
+  meta,
+  reaper,
+  garageBand,
+  previewPlaying,
+  onNewSession,
+}: Props) {
+  const bridgeLabel = (): string => {
+    if (previewPlaying) return "PREVIEW / PLAYING";
+    if (garageBand?.label === "OPENED") return "GARAGEBAND / OPENED";
+    if (garageBand?.label === "FILES READY") return "GARAGEBAND / MIDI READY";
+    if (garageBand?.label === "ERROR") return "GARAGEBAND / ERROR";
+    if (reaper?.label === "CONNECTED") return "REAPER / CONNECTED";
+    if (reaper?.label === "FILES READY") return "REAPER / FILES READY";
+    if (reaper?.label === "ERROR") return "REAPER / ERROR";
+    return "READY TO HEAR";
+  };
 
   if (variant === "lab") {
     return (
@@ -34,7 +46,7 @@ export function Header({ variant, songTitle, meta, reaper, onNewSession }: Props
         </nav>
         <div className="mono flex items-center gap-3 text-[10px] text-[#747A7D]">
           <span className="w-2 h-2 bg-[#C3B8D4]" />
-          {label}
+          {bridgeLabel()}
         </div>
       </header>
     );
@@ -57,7 +69,7 @@ export function Header({ variant, songTitle, meta, reaper, onNewSession }: Props
         </div>
         <div className="mono flex items-center gap-2 text-[10px]">
           <i className="fa-solid fa-square text-[7px] text-[#C3B8D4]" />
-          {label}
+          {bridgeLabel()}
         </div>
       </nav>
     </header>

@@ -2,8 +2,14 @@ import { createServer, type IncomingMessage, type ServerResponse } from "node:ht
 import { config } from "dotenv";
 import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
+import { readFile } from "node:fs/promises";
 import { generateSketch } from "@poppin/session-agents";
-import { currentStatus, writeSketchToReaper } from "@poppin/daw-bridge";
+import {
+  currentGarageBandStatus,
+  currentStatus,
+  writeSketchForGarageBand,
+  writeSketchToReaper,
+} from "@poppin/daw-bridge";
 import { parseBarsFromIntention } from "@poppin/shared";
 import { createSession, loadSession, saveSession, sessionDir } from "./session-store";
 
@@ -49,7 +55,11 @@ const server = createServer(async (req, res) => {
     const path = url.pathname;
 
     if (req.method === "GET" && path === "/api/status") {
-      json(res, 200, { reaper: currentStatus(), ok: true });
+      json(res, 200, {
+        reaper: currentStatus(),
+        garageBand: currentGarageBandStatus(),
+        ok: true,
+      });
       return;
     }
 
@@ -79,7 +89,9 @@ const server = createServer(async (req, res) => {
       return;
     }
 
-    const sessionMatch = path.match(/^\/api\/sessions\/([^/]+)(?:\/(generate|reaper|keep))?$/);
+    const sessionMatch = path.match(
+      /^\/api\/sessions\/([^/]+)(?:\/(generate|reaper|garageband|keep|midi))?$/,
+    );
     if (sessionMatch) {
       const id = decodeURIComponent(sessionMatch[1] ?? "");
       const action = sessionMatch[2];
@@ -90,7 +102,35 @@ const server = createServer(async (req, res) => {
       }
 
       if (req.method === "GET" && !action) {
-        json(res, 200, { session, reaper: currentStatus(session.reaper ?? undefined) });
+        json(res, 200, {
+          session,
+          reaper: currentStatus(session.reaper ?? undefined),
+          garageBand: currentGarageBandStatus(session.garageBand ?? undefined),
+        });
+        return;
+      }
+
+      if (req.method === "GET" && action === "midi") {
+        if (!session.sketch) {
+          json(res, 400, { error: "Generate a sketch before downloading MIDI" });
+          return;
+        }
+        const written = await writeSketchForGarageBand({
+          sketch: session.sketch,
+          sessionDir: sessionDir(session.id),
+          openApp: false,
+        });
+        session.garageBand = written.status;
+        session.logs = [...session.logs, ...written.logs];
+        await saveSession(session);
+        const bytes = await readFile(written.midiFiles.combined);
+        res.writeHead(200, {
+          "Content-Type": "audio/midi",
+          "Content-Disposition": 'attachment; filename="Poppin_Sketch.mid"',
+          "Access-Control-Allow-Origin": "*",
+          "Content-Length": bytes.length,
+        });
+        res.end(bytes);
         return;
       }
 
@@ -114,6 +154,26 @@ const server = createServer(async (req, res) => {
         session.committed = false;
         await saveSession(session);
         json(res, 200, { session, output: result.output, source: result.source });
+        return;
+      }
+
+      if (req.method === "POST" && action === "garageband") {
+        if (!session.sketch) {
+          json(res, 400, { error: "Generate a sketch before sending to GarageBand" });
+          return;
+        }
+        const written = await writeSketchForGarageBand({
+          sketch: session.sketch,
+          sessionDir: sessionDir(session.id),
+        });
+        session.garageBand = written.status;
+        session.logs = [...session.logs, ...written.logs];
+        await saveSession(session);
+        json(res, 200, {
+          session,
+          status: written.status,
+          downloadPath: `/api/sessions/${session.id}/midi`,
+        });
         return;
       }
 

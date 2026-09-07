@@ -3,6 +3,8 @@ export { hardValidateSketch } from "./hard-validate.js";
 export { pitchToMidi, parseMeter, beatsPerBar } from "./pitch.js";
 export { chordToMidiNotes } from "./chords.js";
 export { writeMidiFile } from "./midi.js";
+export { buildPreviewSchedule, midiToHz } from "./preview-schedule.js";
 export type { MidiNote } from "./midi.js";
 export type { RenderedMidi } from "./render.js";
 export type { HardValidation } from "./hard-validate.js";
+export type { PreviewNote, PreviewSchedule, PreviewVoice } from "./preview-schedule.js";
